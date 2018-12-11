@@ -2,27 +2,6 @@
 #include <stdlib.h>
 #include "header.h"
 
-/*char** grille(int nb_lignes, int nb_colonnes, char mode)
-{
-    int i, j;
-    char **matrice;
-
-    matrice = malloc(nb_lignes * sizeof(char*));
-    for (i = 0; i < nb_colonnes; i++)
-    {
-        matrice[i] = malloc(nb_colonnes * sizeof(char));
-    }
-
-    for (i = 0; i < nb_lignes ; i++) // Permet d'initialiser la grille avec que des ' ' pour ne pas avoir n'importe quoi.
-    {
-        for(j = 0; j < nb_colonnes; j++)
-        {
-            matrice[i][j] = ' ';
-        }
-    }
-    return(matrice);
-}*/
-
 Grille grille(int nb_lignes, int nb_colonnes, char mode)
 {
     int i, j;

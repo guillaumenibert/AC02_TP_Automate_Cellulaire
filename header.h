@@ -7,6 +7,5 @@ struct Grille
 };
 
 Grille grille(int nb_lignes, int nb_colonnes, char mode);
-//char** grille(int nb_lignes, int nb_colonnes, char mode);
 void affichage_grille(Grille matrice);
 
