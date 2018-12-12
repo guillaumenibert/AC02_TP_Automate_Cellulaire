@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "header.h"
+#include "fonctions.h"
 
 int main()
 {
     int lignes = 1, colonnes = 1;
-    char mode = 'm';
+    char mode;
     printf("Entrez le nombre de lignes : ");
     scanf("%d", &lignes);
     printf("Entrez le nombre de colonnes : ");
@@ -14,7 +14,7 @@ int main()
     while (getchar()!='\n'); // Vidage du buffer
     scanf("%c", &mode);
 
-    Grille Jeu = grille(lignes, colonnes, 'm');
-    affichage_grille(Jeu);
+    Grille* Jeu = creerGrille(lignes, colonnes, 'm');
+    affichageGrille(Jeu);
     return 0;
 }
