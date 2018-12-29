@@ -11,11 +11,16 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
     int choixRegles, simuPasPas;
     char mode;
 
-    int i;
+    int i, j;
 
     Grille* grandjeu;
     Grille* dixDerniers[11] = {NULL}; // Sauvegarde des 10 derniers états de l'automate.
-    Grille* sauvegardes[10] = {NULL};
+
+    char sauvegardes[256];
+    FILE* sauvegarde = NULL;
+    int nbSauvegardes = 0;
+
+
 
     // Nom du programme présent partout.
     printf("Bienvenue a ATOMICCELLU - LG Corporation (c)\n\n");
@@ -157,9 +162,14 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
     }
 
     // Programme exécuté avec le paramètre "load", chargement d'une grille sauvegardée.
-    else if (strcmp(argv[1], "load") == 0)
-    {
 
+    if (strcmp(argv[1], "load") == 0)
+    {
+        for (i = 0; i < 10; i++)
+        {
+            if (sauvegardes[i] != NULL)
+                printf("Sauvegarde no %d\n", i+1);
+        }
     }
 
     // Sélection du nombres d'étapes
@@ -215,6 +225,27 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
     while (simuPasPas == 1 || simuPasPas == 2)
     {
+        if (simuPasPas == 2)
+        {
+            sprintf( sauvegardes, "sauvegardes/sauvegarde%i.txt", nbSauvegardes+1 );
+            printf( "Ouverture de \"%s\"", sauvegardes );
+            sauvegarde = fopen( sauvegardes, "w" );
+            memset( sauvegardes, 0x00, 256 ); // On reset le nom de fichier pour pas se trouver avec 10 nom de fichiers à la suite.
+            // Ecriture dans ton fichier...
+
+            for(i = 0; i <= grandjeu->nb_lignes; i++)
+            {
+                for (j = 0; j <= grandjeu->nb_colonnes; j++)
+                {
+                    printf("%c", grandjeu->pointeurCase[i][j]);
+                    //fputc(grandjeu->pointeurCase[i][j], sauvegarde);
+                }
+            }
+
+            fclose( sauvegarde ); // n'oublions pas de fermer.
+            nbSauvegardes++;
+        }
+
         int sommeNULL = 0;
         system("cls");
         printf("ATOMICCELLU - LG Corporation (c) - SELECTION DU NOMBRE D'ETAPES\n\n");
@@ -309,6 +340,12 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
         scanf("\n%d", &simuPasPas);
         while (getchar() != '\n');
+    }
+
+    for (i = 0; i < 10; i++)
+    {
+        if (sauvegardes[i] != NULL)
+            printf("Sauvegarde no %d\n", i+1);
     }
 
     return 0;
