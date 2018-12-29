@@ -315,3 +315,16 @@ Grille* simulation (Grille *grille) {
     }
     return grille;
 }
+
+int nbEmplacementSauvLibre(FILE* emplacements[])
+{
+    int sommeEmplacementLIBRE = 0, i = 0;
+    for (i = 0; i < 10; i++)
+    {
+        if (emplacements[i] == NULL)
+        {
+            sommeEmplacementLIBRE++;
+        }
+    }
+    return(sommeEmplacementLIBRE);
+}
