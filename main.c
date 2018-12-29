@@ -1,20 +1,315 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "fonctions.h"
 
-int main()
+int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 {
-    int lignes = 1, colonnes = 1;
-    char mode;
-    printf("Entrez le nombre de lignes : ");
-    scanf("%d", &lignes);
-    printf("Entrez le nombre de colonnes : ");
-    scanf("%d", &colonnes);
-    printf("Entrez le mode, 'a' pour aleatoire, 'm' pour manuel : ");
-    while (getchar()!='\n'); // Vidage du buffer
-    scanf("%c", &mode);
 
-    Grille* Jeu = creerGrille(lignes, colonnes, 'm');
-    affichageGrille(Jeu);
+    int lignes = 1, colonnes = 1, nbEtapes = 1;
+    int regleMortVivantMin = 3, regleMortVivantMax = 3, regleVivantVivantMin = 2, regleVivantVivantMax = 3;// Par défaut, les règles de transition sont celle du jeu de la vie.
+    int choixRegles, simuPasPas;
+    char mode;
+
+    int i;
+
+    Grille* grandjeu;
+    Grille* dixDerniers[11] = {NULL}; // Sauvegarde des 10 derniers états de l'automate.
+    Grille* sauvegardes[10] = {NULL};
+
+    // Nom du programme présent partout.
+    printf("Bienvenue a ATOMICCELLU - LG Corporation (c)\n\n");
+
+    // Choix des règles de transitions
+    printf("CHOIX DES REGLES DE TRANSITIONS\n\n");
+
+    printf("Vous souhaitez jouer au jeu de la vie ou configurer vos propres regles ?\n1 - Jeu de la vie\n2 - Configuration de regles personnalisees\n");
+    printf("\nSaisissez votre choix : ");
+    scanf("%d", &choixRegles);
+    while (getchar() != '\n');
+
+    while (choixRegles < 1 || choixRegles > 2)
+    {
+        printf("Vous n'avez pas entre un nombre valide, recommencez :");
+        printf("Vous souhaitez jouer au jeu de la vie ou configurer vos propres regles ?\n1 - Jeu de la vie\n2 - Configuration de regles personnalisees\n");
+        printf("\nSaisissez votre choix : ");
+        scanf("%d", &choixRegles);
+        while (getchar() != '\n');
+    }
+
+    printf("%d", choixRegles);
+
+    if (choixRegles == 1)
+    {
+        system("cls");
+        printf("ATOMICCELLU - LG Corporation (c) - JEU DE LA VIE\n\n");
+        printf("Vous avez choisi de jouer au jeu de la vie !\n\n");
+        printf("Appuyez sur Entrer pour continuer...");
+        while (getchar()!='\n');
+    }
+    else if (choixRegles == 2)
+    {
+        system("cls");
+        printf("ATOMICCELLU - LG Corporation (c) - CHOIX DES REGLES DE TRANSITIONS\n\n");
+
+        printf("Entrez le nombre minimum de voisins vivants pour qu'une cellule morte devienne vivante : ");
+        scanf("%d", &regleMortVivantMin);
+        while (getchar()!='\n');
+        while (regleMortVivantMin < 1 || regleMortVivantMin > 8)
+        {
+            printf("Vous n'avez pas entre un nombre valide, recommencez :");
+            printf("Entrez le nombre minimum de voisins vivants pour qu'une cellule morte devienne vivante : ");
+            scanf("%d", &regleMortVivantMin);
+            while (getchar()!='\n');
+        }
+
+        printf("Entrez le nombre maximum de voisins vivants pour qu'une cellule morte devienne vivante : ");
+        scanf("%d", &regleMortVivantMax);
+        while (getchar()!='\n');
+        while (regleMortVivantMax < 1 || regleMortVivantMax > 8)
+        {
+            printf("Vous n'avez pas entre un nombre valide, recommencez :");
+            printf("Entrez le nombre maximum de voisins vivants pour qu'une cellule morte devienne vivante : ");
+            scanf("%d", &regleMortVivantMax);
+            while (getchar()!='\n');
+        }
+
+        printf("Entrez le nombre minimum de voisins vivants pour qu'une cellule vivante reste vivante : ");
+        scanf("%d", &regleVivantVivantMin);
+        while (getchar()!='\n');
+        while (regleVivantVivantMin < 1 || regleVivantVivantMin > 8)
+        {
+            printf("Vous n'avez pas entre un nombre valide, recommencez :");
+            printf("Entrez le nombre minimum de voisins vivants pour qu'une cellule vivante reste vivante : ");
+            scanf("%d", &regleVivantVivantMin);
+            while (getchar()!='\n');
+        }
+
+        printf("Entrez le nombre maximum de voisins vivants pour qu'une cellule vivante reste vivante : ");
+        scanf("%d", &regleVivantVivantMax);
+        while (getchar()!='\n');
+        while (regleVivantVivantMax < 1 || regleVivantVivantMax > 8)
+        {
+            printf("Vous n'avez pas entre un nombre valide, recommencez :");
+            printf("Entrez le nombre maximum de voisins vivants pour qu'une cellule vivante reste vivante : ");
+            scanf("%d", &regleVivantVivantMax);
+            while (getchar()!='\n');
+        }
+        printf("Appuyez sur Entrer pour continuer...");
+        while (getchar()!='\n');
+    }
+
+    // Programme exécuté avec le paramètre "new"
+    if (strcmp(argv[1], "new") == 0) // à la fin du développement mettre argv[1] == "new"
+    {
+        // Nom du programme présent partout.
+        system("cls");
+        printf("ATOMICCELLU - LG Corporation (c) - TAILLE DE LA GRILLE\n\n");
+
+        // Définition de la taille de la grille.
+        printf("Commencez par definir la taille de votre grille : \n\n");
+
+        printf("Entrez le nombre de lignes : ");
+        scanf("%d", &lignes);
+        while (getchar() != '\n');
+        printf("Entrez le nombre de colonnes : ");
+        scanf("%d", &colonnes);
+        while (getchar() != '\n');
+
+        Grille* jeu = creerGrille(lignes, colonnes);
+
+        system("cls");
+        printf("ATOMICCELLU - LG Corporation (c) - MODE DE JEU\n\n");
+
+        // Choix du mode de jeu (aléatoire ou manuel)
+        printf("Deux modes de jeu sont a votre disposition :\n\n - Mode aleatoire (a) : L'etat initial de chaque cellule est genere aleatoirement avec une probabilite qu'une cellule soit vivante que vous definirez.\n - Mode manuel (m) : Une grille composee de cellules mortes est generee. Vous selectionnez les coordonees des cellules vivantes pour la remplir.\n");
+
+        printf("\nTapez 'a' pour le mode aleatoire ou 'm' pour le mode manuel : ");
+        scanf("%c", &mode);
+
+        while (mode != 'a' && mode != 'm')
+        {
+            printf("\nVous n'avez pas rentre un mode de jeu valide, reessayez : ");
+            while (getchar() != '\n');
+            scanf("%c", &mode);
+        }
+
+        if (mode == 'm')
+        {
+            system("cls");
+            printf("ATOMICCELLU - LG Corporation (c) - MODE MANUEL\n");
+            grilleManuelle_v2(jeu);
+            system("cls");
+            printf("ATOMICCELLU - LG Corporation (c) - MODE MANUEL\n\n");
+            affichageGrille(jeu);
+            printf("\n\n");
+        }
+        else if (mode == 'a')
+        {
+            system("cls");
+            printf("ATOMICCELLU - LG Corporation (c) - MODE ALEATOIRE\n");
+            grilleAleatoire_v2(jeu, 20);
+            system("cls");
+            printf("ATOMICCELLU - LG Corporation (c) - MODE ALEATOIRE\n\n");
+            affichageGrille(jeu);
+        }
+        grandjeu = jeu;
+    }
+
+    // Programme exécuté avec le paramètre "load", chargement d'une grille sauvegardée.
+    else if (strcmp(argv[1], "load") == 0)
+    {
+
+    }
+
+    // Sélection du nombres d'étapes
+    printf("\n\nSelectionnez le nombre d'etape(s) que vous voulez effectuer : ");
+    scanf("%d", &nbEtapes);
+    while (getchar()!='\n');
+    while (nbEtapes < 1) // La première fois, il n'est pas possible d'aller à un état antérieur.
+    {
+        printf("Vous n'avez pas entre un nombre valide !\n");
+        printf("\nSelectionnez le nombre d'etape(s) que vous voulez effectuer : ");
+        scanf("%d", &nbEtapes);
+        while (getchar()!='\n');
+    }
+
+    if (nbEtapes > 11)
+    {
+        int j = 0;
+        for (i = 0; i < nbEtapes-11; i++)
+        {
+            grandjeu = simulation(grandjeu);
+            system("cls");
+            printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS\n\n");
+            affichageGrille2(grandjeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
+        }
+        for (i = nbEtapes-11; i < nbEtapes; i++)
+        {
+            grandjeu = simulation(grandjeu);
+            dixDerniers[j] = grandjeu;
+            system("cls");
+            printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS\n\n");
+            affichageGrille2(grandjeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
+            j++;
+        }
+    }
+    else
+    {
+        for (i = 0; i < nbEtapes; i++)
+        {
+            grandjeu = simulation(grandjeu);
+            dixDerniers[i] = grandjeu;
+            system("cls");
+            printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS\n\n");
+            affichageGrille2(grandjeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
+        }
+    }
+    printf("\nQue souhaitez-vous faire ?\n");
+    printf("1 - Continuer la simulation\n");
+    printf("2 - Sauvegarder cette partie\n");
+    printf("3 - Quitter le programme\n");
+
+    scanf("%d", &simuPasPas);
+    while (getchar() != '\n');
+
+    while (simuPasPas == 1 || simuPasPas == 2)
+    {
+        int sommeNULL = 0;
+        system("cls");
+        printf("ATOMICCELLU - LG Corporation (c) - SELECTION DU NOMBRE D'ETAPES\n\n");
+        printf("\n\nSelectionnez le nombre d'etape(s) que vous voulez effectuer : ");
+        scanf("%d", &nbEtapes);
+        while (getchar()!='\n');
+        while (nbEtapes < -10)
+        {
+            printf("Il n'est pas possible de revenir au dela de 10 etats anterieurs !\n");
+            printf("\nSelectionnez le nombre d'etape(s) que vous voulez effectuer : ");
+            scanf("%d", &nbEtapes);
+            while (getchar()!='\n');
+        }
+
+        if (nbEtapes > 11) // Les dix derniers états seront automatiquement écrasés.
+        {
+            int j = 0;
+            for (i = 0; i < nbEtapes-11; i++)
+            {
+                grandjeu = simulation(grandjeu);
+                system("cls");
+                printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS\n\n");
+                affichageGrille2(grandjeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
+            }
+            for (i = nbEtapes-11; i < nbEtapes; i++)
+            {
+                grandjeu = simulation(grandjeu);
+                dixDerniers[j] = grandjeu;
+                system("cls");
+                printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS\n\n");
+                affichageGrille2(grandjeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
+                j++;
+            }
+        }
+        else if (nbEtapes > 0 && nbEtapes <= 11)
+        {
+            for (i = 0; i < nbEtapes; i++) // Réinitialisation des dix derniers états.
+            {
+                dixDerniers[i] = NULL;
+            }
+
+            for (i = 0; i < nbEtapes; i++)
+            {
+                grandjeu = simulation(grandjeu);
+                dixDerniers[i] = grandjeu;
+                system("cls");
+                printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS\n\n");
+                affichageGrille2(grandjeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
+            }
+        }
+        else if (nbEtapes >= -10 && nbEtapes < 0)
+        {
+            i = 0;
+            sommeNULL = 0;
+
+            for (i = 0; i <= 10; i++)
+            {
+                if (dixDerniers[i] == NULL)
+                {
+                    sommeNULL++;
+                }
+            }
+
+            if (sommeNULL == 0)
+            {
+                grandjeu = dixDerniers[10+nbEtapes];
+                affichageGrille(grandjeu);
+            }
+            else if (sommeNULL > 0)
+            {
+                if ((10-sommeNULL+nbEtapes) < 0)
+                {
+                    printf("\nIl n'est pas possible de revenir a cet etat !\n");
+                }
+                else
+                {
+                    grandjeu = dixDerniers[10-sommeNULL+nbEtapes]; // Trouvé empiriquement
+                    affichageGrille(grandjeu);
+                }
+            }
+
+            for (i = 0; i <= 10; i++) // Réinitialisation des dix derniers états.
+            {
+                dixDerniers[i] = NULL;
+            }
+        }
+
+        printf("\n\nQue souhaitez-vous faire ?\n");
+        printf("1 - Continuer la simulation\n");
+        printf("2 - Sauvegarder cette grille\n");
+        printf("3 - Quitter le programme\n");
+
+        scanf("\n%d", &simuPasPas);
+        while (getchar() != '\n');
+    }
+
     return 0;
 }
