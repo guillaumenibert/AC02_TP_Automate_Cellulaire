@@ -316,16 +316,13 @@ Grille* simulation (Grille *grille) {
     return grille;
 }
 
-int nbEmplacementSauvLibre(FILE* emplacements[])
+void libererMemoire(Grille* grille) // Fonction qui libère la mémoire.
 {
-    int sommeEmplacementLIBRE = 0, i = 0;
-    for (i = 0; i < 10; i++)
+    int i;
+    for (i = 0; i < grille->nb_lignes; i++)
     {
-        if (emplacements[i] == NULL)
-        {
-            sommeEmplacementLIBRE++;
-        }
+        free(grille->pointeurCase[i]); // On libère la mémoire pour les colonnes.
     }
-    return(sommeEmplacementLIBRE);
+    free(grille->pointeurCase); // On libère la mémoire pour les lignes.
+    free(grille); // On libère la mémoire pour la grille.
 }
-
