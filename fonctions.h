@@ -34,5 +34,4 @@ Grille* simulation (Grille *grille);
 int nbEmplacementSauvLibre(FILE* emplacements[]);
 
 
-
 #endif //AUTOMATES_CELLULAIRES_FONCTIONS_H
