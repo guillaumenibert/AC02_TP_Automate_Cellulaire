@@ -28,3 +28,7 @@ Pour charger une grille sauvegardée au format `.txt` dans le répertoire `sauve
 ```bat
 ATTOMICCELLU.exe load
 ```
+
+## Licence
+
+[MIT](https://github.com/MCDoors/AC02_TP_Automate_Cellulaire/blob/master/LICENSE)
