@@ -31,7 +31,7 @@ void grilleManuelle_v2(Grille *grille);
 int nombreVoisins (Grille* grille, int i, int j);
 int nbVoisinsVivants (Grille *grille, int i, int j);
 Grille* simulation (Grille *grille);
-int nbEmplacementSauvLibre(FILE* emplacements[]);
+void libererMemoire(Grille* grille);
 
 
 #endif //AUTOMATES_CELLULAIRES_FONCTIONS_H
