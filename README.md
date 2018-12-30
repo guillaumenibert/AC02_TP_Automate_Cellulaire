@@ -29,6 +29,10 @@ Pour charger une grille sauvegardée au format `.txt` dans le répertoire `sauve
 ATTOMICCELLU.exe load
 ```
 
+## Version compilée
+
+Une version compilée du programme pour Windows est disponible sous le nom de `ATOMICCELLU.zip`
+
 ## Licence
 
 [MIT](https://github.com/MCDoors/AC02_TP_Automate_Cellulaire/blob/master/LICENSE)
