@@ -1,4 +1,4 @@
-# ATTOMICCELLU - LG Corporation (c) - Projet AC02
+# ATOMICCELLU - LG Corporation (c) - Projet AC02
 
 Création d'un automate cellulaire en C, comprenant les fonctionnalités décrites dans le TP.
 
