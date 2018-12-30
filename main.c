@@ -10,6 +10,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
     int regleMortVivantMin = 3, regleMortVivantMax = 3, regleVivantVivantMin = 2, regleVivantVivantMax = 3;// Par défaut, les règles de transition sont celle du jeu de la vie.
     int choixRegles, simuPasPas;
     char mode;
+    char nomSauvegarde[51];
 
     int i, j;
 
@@ -18,9 +19,10 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
     char sauvegardes[256];
     FILE* sauvegarde = NULL;
-    int nbSauvegardes = 0;
 
-
+    int compteurLignes = 0, compteurCarac = 0;
+    char chaine[100] = "";
+    int nbLignes, nbColonnes;
 
     // Nom du programme présent partout.
     printf("Bienvenue a ATOMICCELLU - LG Corporation (c)\n\n");
@@ -165,11 +167,72 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
     if (strcmp(argv[1], "load") == 0)
     {
-        for (i = 0; i < 10; i++)
+        system("cls");
+        printf("ATOMICCELLU - LG Corporation (c) - CHARGEMENT D'UNE GRILLE SAUVEGARDEE\n\n");
+        printf("Entrez le nom de votre sauvegarde : ");
+        gets(nomSauvegarde);
+
+        int caractereActuel = 0;
+
+        sprintf( sauvegardes, "sauvegardes/%s.txt", nomSauvegarde );
+        printf( "Ouverture de \"%s\"", sauvegardes );
+        sauvegarde = fopen( sauvegardes, "r" );
+        memset( sauvegardes, 0x00, 256 ); // On reset le nom de fichier pour pas se trouver avec 10 nom de fichiers à la suite.
+        // Ecriture dans ton fichier...
+
+        if (sauvegarde != NULL)
         {
-            if (sauvegardes[i] != NULL)
-                printf("Sauvegarde no %d\n", i+1);
+            while (compteurLignes < 2) // Récupération du nombre de lignes et de colonnes
+            {
+                caractereActuel = fgetc(sauvegarde);
+                chaine[compteurCarac] = caractereActuel;
+                compteurCarac++;
+                if (caractereActuel == '\n')
+                {
+                    if (compteurLignes == 0)
+                    {
+                        chaine[compteurCarac] = '\0';
+                        nbLignes = atoi(chaine);
+                        compteurCarac = 0;
+                    }
+                    if (compteurLignes == 1)
+                    {
+                        chaine[compteurCarac] = '\0';
+                        nbColonnes = atoi(chaine);
+                        compteurCarac = 0;
+                    }
+                    compteurLignes++;
+                }
+            }
+
+            Grille* jeu = creerGrille(nbLignes, nbColonnes);
+            compteurLignes = 0; // reinitialisation
+            compteurCarac = 0;
+
+            do
+            {
+                caractereActuel = fgetc(sauvegarde);
+
+                if (caractereActuel != '\n')
+                {
+                    jeu->pointeurCase[compteurLignes][compteurCarac] = caractereActuel;
+                    compteurCarac++;
+                }
+                if (caractereActuel == '\n')
+                {
+                    compteurLignes++;
+                    compteurCarac = 0;
+                }
+
+            }while (compteurLignes != nbLignes);
+
+            fclose(sauvegarde);
+            grandjeu = jeu;
         }
+
+        system("cls");
+        printf("ATOMICCELLU - LG Corporation (c) - SAUVEGARDE : %s\n\n", nomSauvegarde);
+        affichageGrille(grandjeu);
     }
 
     // Sélection du nombres d'étapes
@@ -223,27 +286,74 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
     scanf("%d", &simuPasPas);
     while (getchar() != '\n');
 
+    while (simuPasPas < 1 || simuPasPas > 3)
+    {
+        system("cls");
+        printf("ATOMICCELLU - LG Corporation (c) - MENU\n\n");
+        printf("\nEntrez un choix valide !\n");
+        printf("\nQue souhaitez-vous faire ?\n");
+        printf("1 - Continuer la simulation\n");
+        printf("2 - Sauvegarder cette partie\n");
+        printf("3 - Quitter le programme\n");
+
+        scanf("%d", &simuPasPas);
+        while (getchar() != '\n');
+    }
+
     while (simuPasPas == 1 || simuPasPas == 2)
     {
         if (simuPasPas == 2)
         {
-            sprintf( sauvegardes, "sauvegardes/sauvegarde%i.txt", nbSauvegardes+1 );
-            printf( "Ouverture de \"%s\"", sauvegardes );
+            system("cls");
+            printf("ATOMICCELLU - LG Corporation (c) - SAUVEGARDE\n\n");
+            printf("Entrez le nom de votre sauvegarde (50 caracteres max) : ");
+            gets(nomSauvegarde);
+
+            sprintf( sauvegardes, "sauvegardes/%s.txt", nomSauvegarde );
+            printf( "Creation de \"%s\"", sauvegardes );
             sauvegarde = fopen( sauvegardes, "w" );
             memset( sauvegardes, 0x00, 256 ); // On reset le nom de fichier pour pas se trouver avec 10 nom de fichiers à la suite.
             // Ecriture dans ton fichier...
 
-            for(i = 0; i <= grandjeu->nb_lignes; i++)
+            fprintf(sauvegarde, "%d", grandjeu->nb_lignes);
+            fputs("\n", sauvegarde);
+            fprintf(sauvegarde, "%d", grandjeu->nb_colonnes);
+            fputs("\n", sauvegarde);
+
+            for(i = 0; i < grandjeu->nb_lignes; i++)
             {
-                for (j = 0; j <= grandjeu->nb_colonnes; j++)
+                for (j = 0; j < grandjeu->nb_colonnes; j++)
                 {
-                    printf("%c", grandjeu->pointeurCase[i][j]);
-                    //fputc(grandjeu->pointeurCase[i][j], sauvegarde);
+                    fputc(grandjeu->pointeurCase[i][j], sauvegarde);
                 }
+                fputs("\n", sauvegarde);
             }
 
             fclose( sauvegarde ); // n'oublions pas de fermer.
-            nbSauvegardes++;
+            printf("\n\nQue souhaitez-vous faire ?\n");
+            printf("1 - Continuer la simulation\n");
+            printf("2 - Quitter le programme\n");
+
+            scanf("\n%d", &simuPasPas);
+            while (getchar() != '\n');
+
+            while (simuPasPas < 1 || simuPasPas > 2)
+            {
+                system("cls");
+                printf("ATOMICCELLU - LG Corporation (c) - MENU\n\n");
+                printf("\nEntrez un choix valide !\n");
+                printf("\n\nQue souhaitez-vous faire ?\n");
+                printf("1 - Continuer la simulation\n");
+                printf("2 - Quitter le programme\n");
+
+                scanf("\n%d", &simuPasPas);
+                while (getchar() != '\n');
+            }
+
+            if (simuPasPas == 2)
+            {
+                exit(0);
+            }
         }
 
         int sommeNULL = 0;
@@ -340,12 +450,6 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
         scanf("\n%d", &simuPasPas);
         while (getchar() != '\n');
-    }
-
-    for (i = 0; i < 10; i++)
-    {
-        if (sauvegardes[i] != NULL)
-            printf("Sauvegarde no %d\n", i+1);
     }
 
     return 0;
