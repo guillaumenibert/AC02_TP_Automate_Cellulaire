@@ -328,3 +328,4 @@ int nbEmplacementSauvLibre(FILE* emplacements[])
     }
     return(sommeEmplacementLIBRE);
 }
+
