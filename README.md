@@ -8,7 +8,7 @@ Utilisation du compilateur [MinGW](http://mingw.org/) présent dans [Code::Block
 
 ## Utilisation du programme sous Windows
 
-Après compilation du programme, déplacez vous dans le répertoire où se situe le programme `ATOMICCELLU.exe` et le dossier de sauvegardes `sauvegardes`.
+Après compilation du programme, ouvrez une invite de commande `cmd` et déplacez vous dans le répertoire où se situe le programme `ATOMICCELLU.exe` et le dossier de sauvegardes `sauvegardes`.
 
 ```bat
 cd repertoire_de_travail
