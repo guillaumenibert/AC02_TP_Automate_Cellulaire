@@ -21,14 +21,14 @@ Lancez le programme avec les paramètres voulus (`-load` ou `-new`) :
 Pour créer une nouvelle grille on utilise le paramètre `-new` :
 
 ```bat
-ATTOMICCELLU.exe new
+ATOMICCELLU.exe new
 ```
 
 #### Paramètre `-load`
 Pour charger une grille sauvegardée au format `.txt` dans le répertoire `sauvegardes`, on utilise le paramètre `-load` :
 
 ```bat
-ATTOMICCELLU.exe load
+ATOMICCELLU.exe load
 ```
 
 ## Version compilée
