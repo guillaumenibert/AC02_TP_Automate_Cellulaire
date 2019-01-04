@@ -80,55 +80,22 @@ int random (int probabilite) {
     return rand()% (probabilite+1);
 }
 
-Grille* grilleAleatoire (Grille *grille, int probabilite) {
-    int i = 0, j =0;
-    for (i=0; i<grille->nb_lignes;i++) {
-        for (j=0; j<grille->nb_colonnes; j++) {
-            if (probabilite <= random(100)) {
-                grille->pointeurCase[i][j] = '*';
-            }
-
-        }
-    }
-    return grille;
-}
-
-void grilleAleatoire_v2(Grille *grille, int probabilite)
+void grilleAleatoire(Grille *grille, int probabilite)
 {
     int i = 0, j=0;
     for (i=0; i<grille->nb_lignes;i++) {
         for (j=0; j<grille->nb_colonnes; j++) {
-            if (probabilite <= random(100)) {
+            if (probabilite>=100) {
+                grille->pointeurCase[i][j] = '*';
+            }
+            else if (probabilite > random(100)) {
                 grille->pointeurCase[i][j] = '*';
             }
         }
     }
 }
 
-//IL RESTE A FAIRE MARCHER LES WHILE POUR QUE LE USER PUISSE PAS RENTRER DE LA MERDE
-Grille* grilleManuelle (Grille *grille) {
-    int i=0, j=0, k=0, nbCellules=0;
-    printf("Combien de cellule vivante voulez-vous entrer dans la grille ?\n");
-    scanf("%d", &nbCellules);
-    getchar();
-    for (k=0; k<nbCellules;k++) {
-//        while (i < grille->nb_lignes || i > grille->nb_lignes) {
-            printf("Veuillez choisir la ligne de la cellule vivante de la grille : \n");
-            scanf("%d", &i);
-            getchar();
-//        }
-    printf("Veuillez choisir la ligne de la cellule vivante de la grille : \n");
-//    while (j < grille->nb_colonnes || j > grille->nb_colonnes) {
-            scanf("%d", &j);
-            getchar();
-//        }
-        // par exemple, si le user rentre 1 1, alors ca va se mettre aux coordonnées [0][0]
-        grille->pointeurCase[i-1][j-1] = '*';
-    }
-    return grille;
-}
-
-void grilleManuelle_v2(Grille *grille)
+void grilleManuelle(Grille *grille)
 {
     int i = 0, j = 0, k = 0, nbCellules = 0;
     int nbTotalCellules = (grille->nb_colonnes)*(grille->nb_lignes);
@@ -209,18 +176,17 @@ void grilleManuelle_v2(Grille *grille)
 
 //renvoie le nombre de voisin, en partant de la ligne 0 et de la colonne 0
 // ATTENTION aux indices !
-int nombreVoisins (Grille* grille, int i, int j) {
-//    int i=0, j=0;
-    if (
-            (i==0 && j==0) ||
-            (i==0 && j==grille->nb_colonnes-1) ||
-            (i==grille->nb_lignes-1 && j==0) ||
-            (i==grille->nb_lignes-1 && j==grille->nb_colonnes-1)
-            ) return 3;
-    else if (i==0 || i == grille->nb_lignes-1 || j==0 || j==grille->nb_colonnes-1) return 5;
-    else return 8;
-
-}
+//int nombreVoisins (Grille* grille, int i, int j) {
+////    int i=0, j=0;
+//    if (
+//            (i==0 && j==0) ||
+//            (i==0 && j==grille->nb_colonnes-1) ||
+//            (i==grille->nb_lignes-1 && j==0) ||
+//            (i==grille->nb_lignes-1 && j==grille->nb_colonnes-1)
+//            ) return 3;
+//    else if (i==0 || i == grille->nb_lignes-1 || j==0 || j==grille->nb_colonnes-1) return 5;
+//    else return 8;
+//}
 
 //PENSER A RETIRER LES CONDITIONS POUR LES LIGNES AUX BORDS (CHECKER SI CA CHANGE RIEN)
 int nbVoisinsVivants (Grille *grille, int i, int j) {
@@ -232,28 +198,28 @@ int nbVoisinsVivants (Grille *grille, int i, int j) {
         if (grille->pointeurCase[i+1][j+1] == '*') compteur++;
         return compteur;
     }
-    //coin en haut a droite
+        //coin en haut a droite
     else if (i==0 && j==grille->nb_colonnes-1) {
         if (grille->pointeurCase[i][j-1] == '*') compteur++;
         if (grille->pointeurCase[i+1][j-1] == '*') compteur++;
         if (grille->pointeurCase[i+1][j] == '*') compteur++;
         return compteur;
     }
-    //coin en bas a gauche
+        //coin en bas a gauche
     else if (i==grille->nb_lignes-1 && j==0) {
         if (grille->pointeurCase[i-1][j] == '*') compteur++;
         if (grille->pointeurCase[i-1][j+1] == '*') compteur++;
         if (grille->pointeurCase[i][j+1] == '*') compteur++;
         return compteur;
     }
-    //coin en bas a droite
+        //coin en bas a droite
     else if (i==grille->nb_lignes-1 && j==grille->nb_colonnes-1) {
         if (grille->pointeurCase[i][j-1] == '*') compteur++;
         if (grille->pointeurCase[i-1][j-1] == '*') compteur++;
         if (grille->pointeurCase[i-1][j] == '*') compteur++;
         return compteur;
     }
-    //ligne en haut sauf coin
+        //ligne en haut sauf coin
     else if (i==0 && j>0 && j<grille->nb_colonnes-1) {
         if (grille->pointeurCase[i][j-1] == '*') compteur++;
         if (grille->pointeurCase[i+1][j-1] == '*') compteur++;
@@ -287,7 +253,7 @@ int nbVoisinsVivants (Grille *grille, int i, int j) {
         if (grille->pointeurCase[i+1][j] == '*') compteur++;
         return compteur;
     }
-    //tout sauf les bords
+        //tout sauf les bords
     else {
         if (grille->pointeurCase[i-1][j-1] == '*') compteur++;
         if (grille->pointeurCase[i-1][j] == '*') compteur++;
@@ -301,18 +267,37 @@ int nbVoisinsVivants (Grille *grille, int i, int j) {
     }
 }
 
-Grille* simulation (Grille *grille) {
+//Grille* simulationJeuDeVie (Grille *grille) {
+//    Grille* grilleTampon = creerGrille(grille->nb_lignes, grille->nb_colonnes);
+//    int i=0, j=0;
+//    for (i=0; i<grille->nb_lignes; i++) {
+//        for (j=0; j<grille->nb_colonnes; j++) {
+//            if (grille->pointeurCase[i][j] == '*') {
+//                if (nbVoisinsVivants(grille, i,j) == 2 || nbVoisinsVivants(grille, i,j)==3) grilleTampon->pointeurCase[i][j]= '*';
+//            }
+//            else if (grille->pointeurCase[i][j] == ' ') {
+//                if (nbVoisinsVivants(grille, i,j) == 3) grilleTampon->pointeurCase[i][j] = '*';
+//            }
+//        }
+//    }
+//    grille->pointeurCase = grilleTampon->pointeurCase;
+//    return grille;
+//}
+
+Grille* simulationWithRegles (Grille *grille, int nbMinToLive, int nbMaxToLive, int nbMinToStayAlive, int nbMaxToStayAlive) {
+    Grille* grilleTampon = creerGrille(grille->nb_lignes, grille->nb_colonnes);
     int i=0, j=0;
     for (i=0; i<grille->nb_lignes; i++) {
         for (j=0; j<grille->nb_colonnes; j++) {
             if (grille->pointeurCase[i][j] == '*') {
-                if (nbVoisinsVivants(grille, i,j) != 2 && nbVoisinsVivants(grille, i,j)!=3) grille->pointeurCase[i][j]= ' ';
+                if (nbVoisinsVivants(grille, i,j) >= nbMinToStayAlive && nbVoisinsVivants(grille, i,j)<= nbMaxToStayAlive) grilleTampon->pointeurCase[i][j]= '*';
             }
             else if (grille->pointeurCase[i][j] == ' ') {
-                if (nbVoisinsVivants(grille, i,j) == 3) grille->pointeurCase[i][j] = '*';
+                if (nbVoisinsVivants(grille, i,j) >= nbMinToLive && nbVoisinsVivants(grille, i,j) <= nbMaxToLive) grilleTampon->pointeurCase[i][j] = '*';
             }
         }
     }
+    grille->pointeurCase = grilleTampon->pointeurCase;
     return grille;
 }
 
