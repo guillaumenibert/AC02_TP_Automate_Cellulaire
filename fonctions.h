@@ -24,13 +24,12 @@ Grille* creerGrille(int nb_lignes, int nb_colonnes);
 void affichageGrille(Grille* grille);
 void affichageGrille2(Grille* grille);
 int random (int probabilite);
-Grille* grilleAleatoire (Grille *grille, int probabilite);
-void grilleAleatoire_v2(Grille *grille, int probabilite);
-Grille* grilleManuelle (Grille *grille);
-void grilleManuelle_v2(Grille *grille);
-int nombreVoisins (Grille* grille, int i, int j);
+void grilleAleatoire(Grille *grille, int probabilite);
+void grilleManuelle(Grille *grille);
+//int nombreVoisins (Grille* grille, int i, int j);
 int nbVoisinsVivants (Grille *grille, int i, int j);
-Grille* simulation (Grille *grille);
+Grille* simulationJeuDeVie (Grille *grille);
+Grille* simulationWithRegles (Grille *grille, int nbMinToLive, int nbMaxToLive, int nbMinToStayAlive, int nbMaxToStayAlive);
 void libererMemoire(Grille* grille);
 
 
