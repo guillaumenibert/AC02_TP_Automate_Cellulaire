@@ -1,5 +1,6 @@
 //
-// Created by Luc on 16/12/2018.
+// Luc Véron
+// Guillaume Nibert
 //
 
 #include "fonctions.h"
