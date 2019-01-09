@@ -1,5 +1,6 @@
 //
-// Created by Luc on 16/12/2018.
+// Luc Véron
+// Guillaume Nibert
 //
 
 #ifndef AUTOMATES_CELLULAIRES_FONCTIONS_H
@@ -26,7 +27,6 @@ void affichageGrille2(Grille* grille);
 int random (int probabilite);
 void grilleAleatoire(Grille *grille, int probabilite);
 void grilleManuelle(Grille *grille);
-//int nombreVoisins (Grille* grille, int i, int j);
 int nbVoisinsVivants (Grille *grille, int i, int j);
 Grille* simulationJeuDeVie (Grille *grille);
 Grille* simulationWithRegles (Grille *grille, int nbMinToLive, int nbMaxToLive, int nbMinToStayAlive, int nbMaxToStayAlive);
