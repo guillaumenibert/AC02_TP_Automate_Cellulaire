@@ -1,7 +1,8 @@
-//
-// Luc Véron
-// Guillaume Nibert
-//
+/*
+  Projet AC02 - AUTOMATE CELLULAIRE
+  Luc Véron
+  Guillaume Nibert
+*/
 
 #include "fonctions.h"
 
@@ -175,21 +176,6 @@ void grilleManuelle(Grille *grille)
     }
 }
 
-//renvoie le nombre de voisin, en partant de la ligne 0 et de la colonne 0
-// ATTENTION aux indices !
-//int nombreVoisins (Grille* grille, int i, int j) {
-////    int i=0, j=0;
-//    if (
-//            (i==0 && j==0) ||
-//            (i==0 && j==grille->nb_colonnes-1) ||
-//            (i==grille->nb_lignes-1 && j==0) ||
-//            (i==grille->nb_lignes-1 && j==grille->nb_colonnes-1)
-//            ) return 3;
-//    else if (i==0 || i == grille->nb_lignes-1 || j==0 || j==grille->nb_colonnes-1) return 5;
-//    else return 8;
-//}
-
-//PENSER A RETIRER LES CONDITIONS POUR LES LIGNES AUX BORDS (CHECKER SI CA CHANGE RIEN)
 int nbVoisinsVivants (Grille *grille, int i, int j) {
     int compteur = 0;
     //coin en haut a gauche
@@ -267,23 +253,6 @@ int nbVoisinsVivants (Grille *grille, int i, int j) {
         return compteur;
     }
 }
-
-//Grille* simulationJeuDeVie (Grille *grille) {
-//    Grille* grilleTampon = creerGrille(grille->nb_lignes, grille->nb_colonnes);
-//    int i=0, j=0;
-//    for (i=0; i<grille->nb_lignes; i++) {
-//        for (j=0; j<grille->nb_colonnes; j++) {
-//            if (grille->pointeurCase[i][j] == '*') {
-//                if (nbVoisinsVivants(grille, i,j) == 2 || nbVoisinsVivants(grille, i,j)==3) grilleTampon->pointeurCase[i][j]= '*';
-//            }
-//            else if (grille->pointeurCase[i][j] == ' ') {
-//                if (nbVoisinsVivants(grille, i,j) == 3) grilleTampon->pointeurCase[i][j] = '*';
-//            }
-//        }
-//    }
-//    grille->pointeurCase = grilleTampon->pointeurCase;
-//    return grille;
-//}
 
 Grille* simulationWithRegles (Grille *grille, int nbMinToLive, int nbMaxToLive, int nbMinToStayAlive, int nbMaxToStayAlive) {
     Grille* grilleTampon = creerGrille(grille->nb_lignes, grille->nb_colonnes);
