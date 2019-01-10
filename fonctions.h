@@ -1,7 +1,8 @@
-//
-// Luc Véron
-// Guillaume Nibert
-//
+/*
+  Projet AC02 - AUTOMATE CELLULAIRE
+  Luc Véron
+  Guillaume Nibert
+*/
 
 #ifndef AUTOMATES_CELLULAIRES_FONCTIONS_H
 #define AUTOMATES_CELLULAIRES_FONCTIONS_H
