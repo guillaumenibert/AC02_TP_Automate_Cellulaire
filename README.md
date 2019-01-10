@@ -1,6 +1,6 @@
 [![](https://img.shields.io/github/license/MCDoors/AC02_TP_Automate_Cellulaire.svg)](https://github.com/MCDoors/AC02_TP_Automate_Cellulaire/blob/master/LICENSE)
 
-# ATOMICCELLU - LG Corporation (c) - Projet AC02
+# ATOMICCELLU - LG Corporation (c) - Projet AC02 - v1.0.1
 
 Création d'un automate cellulaire en C, comprenant les fonctionnalités décrites dans le TP.
 
