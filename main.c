@@ -1,3 +1,9 @@
+/*
+  Projet AC02 - AUTOMATE CELLULAIRE
+  Luc Véron
+  Guillaume Nibert
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -82,7 +88,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
         printf("Entrez le nombre maximum de voisins vivants pour qu'une cellule morte devienne vivante : ");
         scanf("%d", &regleMortVivantMax);
         while (getchar()!='\n');
-        while (regleMortVivantMax < 1 || regleMortVivantMax > 8)
+        while (regleMortVivantMax < regleMortVivantMin || regleMortVivantMax > 8)
         {
             printf("Vous n'avez pas entre un nombre valide, recommencez :");
             printf("Entrez le nombre maximum de voisins vivants pour qu'une cellule morte devienne vivante : ");
@@ -104,7 +110,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
         printf("Entrez le nombre maximum de voisins vivants pour qu'une cellule vivante reste vivante : ");
         scanf("%d", &regleVivantVivantMax);
         while (getchar()!='\n');
-        while (regleVivantVivantMax < 1 || regleVivantVivantMax > 8)
+        while (regleVivantVivantMax < regleVivantVivantMin || regleVivantVivantMax > 8)
         {
             printf("Vous n'avez pas entre un nombre valide, recommencez :");
             printf("Entrez le nombre maximum de voisins vivants pour qu'une cellule vivante reste vivante : ");
@@ -512,6 +518,20 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
         scanf("\n%d", &simuPasPas);
         while (getchar() != '\n');
+
+        while (simuPasPas < 1 || simuPasPas > 3)
+        {
+            system("cls");
+            printf("ATOMICCELLU - LG Corporation (c) - MENU\n\n");
+            printf("\nEntrez un choix valide !\n");
+            printf("\nQue souhaitez-vous faire ?\n");
+            printf("1 - Continuer la simulation\n");
+            printf("2 - Sauvegarder cette partie\n");
+            printf("3 - Quitter le programme\n");
+
+            scanf("%d", &simuPasPas);
+            while (getchar() != '\n');
+        }
     }
 
     system("cls");
