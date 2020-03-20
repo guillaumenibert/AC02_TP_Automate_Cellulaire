@@ -77,7 +77,7 @@ ATOMICCELLU_v1.0.2_x86-64.exe -load
 
 ## Version compilée
 
-Une version compilée du programme pour Linux et Windows sont disponibles dans la section [Releases](https://github.com/MCDoors/AC02_TP_Automate_Cellulaire/releases).
+Des versions compilées du programme pour Linux et Windows sont disponibles dans la section [Releases](https://github.com/MCDoors/AC02_TP_Automate_Cellulaire/releases).
 
 ## Licence
 
