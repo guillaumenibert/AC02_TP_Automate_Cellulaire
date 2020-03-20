@@ -4,6 +4,12 @@
   Guillaume Nibert
 */
 
+#ifdef _WIN32
+#define CLEAR "cls"
+#else //In any other OS
+#define CLEAR "clear"
+#endif //_WIN32
+
 #include "fonctions.h"
 
 Grille* creerGrille(int nb_lignes, int nb_colonnes)
@@ -78,7 +84,7 @@ void affichageGrille2(Grille* grille) // Un deuxième mode d'affichage... Sans l
 }
 
 //renvoie un nombre entre 0 et le parametre
-int random (int probabilite) {
+int random_ (int probabilite) {
     return rand()% (probabilite+1);
 }
 
@@ -90,7 +96,7 @@ void grilleAleatoire(Grille *grille, int probabilite)
             if (probabilite>=100) {
                 grille->pointeurCase[i][j] = '*';
             }
-            else if (probabilite > random(100)) {
+            else if (probabilite > random_(100)) {
                 grille->pointeurCase[i][j] = '*';
             }
         }
@@ -170,7 +176,7 @@ void grilleManuelle(Grille *grille)
             }
         }
         grille->pointeurCase[i-1][j-1] = '*';
-        system("cls");
+        system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - MODE MANUEL\n\n");
         affichageGrille(grille);
     }

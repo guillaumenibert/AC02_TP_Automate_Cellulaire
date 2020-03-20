@@ -7,7 +7,6 @@
 #ifndef AUTOMATES_CELLULAIRES_FONCTIONS_H
 #define AUTOMATES_CELLULAIRES_FONCTIONS_H
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,7 +24,7 @@ struct Grille
 Grille* creerGrille(int nb_lignes, int nb_colonnes);
 void affichageGrille(Grille* grille);
 void affichageGrille2(Grille* grille);
-int random (int probabilite);
+int random_ (int probabilite);
 void grilleAleatoire(Grille *grille, int probabilite);
 void grilleManuelle(Grille *grille);
 int nbVoisinsVivants (Grille *grille, int i, int j);

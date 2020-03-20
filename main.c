@@ -4,6 +4,12 @@
   Guillaume Nibert
 */
 
+#ifdef _WIN32
+#define CLEAR "cls"
+#else //In any other OS
+#define CLEAR "clear"
+#endif //_WIN32
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -63,7 +69,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
     if (choixRegles == 1)
     {
-        system("cls");
+        system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - JEU DE LA VIE\n\n");
         printf("Vous avez choisi de jouer au jeu de la vie !\n\n");
         printf("Appuyez sur Entrer pour continuer...");
@@ -71,7 +77,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
     }
     else if (choixRegles == 2)
     {
-        system("cls");
+        system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - CHOIX DES REGLES DE TRANSITIONS\n\n");
 
         printf("Entrez le nombre minimum de voisins vivants pour qu'une cellule morte devienne vivante : ");
@@ -125,7 +131,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
     if (strcmp(argv[1], "-new") == 0) // à la fin du développement mettre argv[1] == "new"
     {
         // Nom du programme présent partout.
-        system("cls");
+        system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - TAILLE DE LA GRILLE\n\n");
 
         // Définition de la taille de la grille.
@@ -140,7 +146,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
         Grille* jeu = creerGrille(lignes, colonnes);
 
-        system("cls");
+        system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - MODE DE JEU\n\n");
 
         // Choix du mode de jeu (aléatoire ou manuel)
@@ -158,17 +164,17 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
         if (mode == 'm') // Mode manuel
         {
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - MODE MANUEL\n");
             grilleManuelle(jeu);
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - MODE MANUEL\n\n");
             affichageGrille(jeu);
             printf("\n\n");
         }
         else if (mode == 'a') // Mode aléatoire
         {
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - MODE ALEATOIRE\n\n");
             printf("Entrez votre probabilite entre 0 et 100 : ");
             scanf("%d", &probabilite);
@@ -180,7 +186,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
             }
             srand(time(NULL));
             grilleAleatoire(jeu, probabilite);
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - MODE ALEATOIRE\n\n");
             affichageGrille(jeu);
         }
@@ -190,7 +196,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
     // Programme exécuté avec le paramètre "load", chargement d'une grille sauvegardée.
     if (strcmp(argv[1], "-load") == 0)
     {
-        system("cls");
+        system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - CHARGEMENT D'UNE GRILLE SAUVEGARDEE\n\n");
         printf("Entrez le nom de votre sauvegarde : ");
         gets(nomSauvegarde);
@@ -253,7 +259,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
             grandJeu = jeu;
         }
 
-        system("cls");
+        system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - SAUVEGARDE : %s\n\n", nomSauvegarde);
         affichageGrille(grandJeu);
     }
@@ -276,7 +282,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
         for (i = 0; i < nbEtapes-10; i++) // Du premier au dernier-11
         {
             grandJeu = simulationWithRegles(grandJeu, regleMortVivantMin, regleMortVivantMax, regleVivantVivantMin, regleVivantVivantMax);
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS (ETAPE %d)\n\n", i+1);
             affichageGrille2(grandJeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
         }
@@ -284,13 +290,13 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
         {
             dixDerniers[j] = *grandJeu;
             grandJeu = simulationWithRegles(grandJeu, regleMortVivantMin, regleMortVivantMax, regleVivantVivantMin, regleVivantVivantMax);
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS (ETAPE %d)\n\n", i+1);
             affichageGrille2(grandJeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
             j++;
         }
 
-        system("cls");
+        system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - RESULTAT DE LA SIMULATION APRES %d ETAPE(S)\n\n", nbEtapes);
         affichageGrille(grandJeu);
     }
@@ -300,7 +306,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
         {
             dixDerniers[0] = *grandJeu;
             grandJeu = simulationWithRegles(grandJeu, regleMortVivantMin, regleMortVivantMax, regleVivantVivantMin, regleVivantVivantMax);
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS\n\n");
             affichageGrille2(grandJeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
 
@@ -311,13 +317,13 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
             {
                 dixDerniers[i] = *grandJeu;
                 grandJeu = simulationWithRegles(grandJeu, regleMortVivantMin, regleMortVivantMax, regleVivantVivantMin, regleVivantVivantMax);
-                system("cls");
+                system(CLEAR);
                 printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS\n\n");
                 affichageGrille2(grandJeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
             }
         }
 
-        system("cls");
+        system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - RESULTAT DE LA SIMULATION APRES %d ETAPE(S)\n\n", nbEtapes);
         printf("\n");
         affichageGrille(grandJeu);
@@ -333,7 +339,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
     while (simuPasPas < 1 || simuPasPas > 3)
     {
-        system("cls");
+        system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - MENU\n\n");
         printf("\nEntrez un choix valide !\n");
         printf("\nQue souhaitez-vous faire ?\n");
@@ -349,7 +355,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
     {
         if (simuPasPas == 2)
         {
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - SAUVEGARDE\n\n");
             printf("Entrez le nom de votre sauvegarde (50 caracteres max) : ");
             gets(nomSauvegarde);
@@ -383,7 +389,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
             while (simuPasPas < 1 || simuPasPas > 2) // Gestion d'un choix de l'utilisateur non valide.
             {
-                system("cls");
+                system(CLEAR);
                 printf("ATOMICCELLU - LG Corporation (c) - MENU\n\n");
                 printf("\nEntrez un choix valide !\n");
                 printf("\n\nQue souhaitez-vous faire ?\n");
@@ -401,7 +407,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
         }
 
         int sommeNULL = 0;
-        saisirEtapes: system("cls");
+        saisirEtapes: system(CLEAR);
         printf("ATOMICCELLU - LG Corporation (c) - SELECTION DU NOMBRE D'ETAPES\n\n");
         printf("\n\nSelectionnez le nombre d'etape(s) que vous voulez effectuer : ");
         scanf("%d", &nbEtapes);
@@ -420,7 +426,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
             for (i = 0; i < nbEtapes-10; i++)
             {
                 grandJeu = simulationWithRegles(grandJeu, regleMortVivantMin, regleMortVivantMax, regleVivantVivantMin, regleVivantVivantMax);
-                system("cls");
+                system(CLEAR);
                 printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS (ETAPE %d)\n\n", i+1);
                 affichageGrille2(grandJeu); // Utilisation de l'autre fonction d'affichage par souci de lisibilité.
             }
@@ -428,13 +434,13 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
             {
                 dixDerniers[j] = *grandJeu;
                 grandJeu = simulationWithRegles(grandJeu, regleMortVivantMin, regleMortVivantMax, regleVivantVivantMin, regleVivantVivantMax);
-                system("cls");
+                system(CLEAR);
                 printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS (ETAPE %d)\n\n", i+1);
                 affichageGrille2(grandJeu); // Utilisation de l'autre fonction d'affichage par souci de lisibilité.
                 j++;
             }
 
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - RESULTAT DE LA SIMULATION APRES %d ETAPE(S)\n\n", nbEtapes);
             affichageGrille(grandJeu);
         }
@@ -450,7 +456,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
             {
                 dixDerniers[0] = *grandJeu;
                 grandJeu = simulationWithRegles(grandJeu, regleMortVivantMin, regleMortVivantMax, regleVivantVivantMin, regleVivantVivantMax);
-                system("cls");
+                system(CLEAR);
                 printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS (ETAPE %d)\n\n", i+1);
                 affichageGrille2(grandJeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
             }
@@ -460,12 +466,12 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
                 {
                     dixDerniers[i] = *grandJeu;
                     grandJeu = simulationWithRegles(grandJeu, regleMortVivantMin, regleMortVivantMax, regleVivantVivantMin, regleVivantVivantMax);
-                    system("cls");
+                    system(CLEAR);
                     printf("ATOMICCELLU - LG Corporation (c) - SIMULATION EN COURS (ETAPE %d)\n\n", i+1);
                     affichageGrille2(grandJeu); // Utilisation de l'autre fonction d'affichage par soucis de lisibilité.
                 }
             }
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - RESULTAT DE LA SIMULATION APRES %d ETAPE(S)\n\n", nbEtapes);
             affichageGrille(grandJeu);
         }
@@ -499,7 +505,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
                 {
                     TAMPON = dixDerniers[10-sommeNULL+nbEtapes];  // Trouvé empiriquement
                     grandJeu = &TAMPON;
-                    system("cls");
+                    system(CLEAR);
                     printf("ATOMICCELLU - LG Corporation (c) - RETOUR A %d ETAPE(S) EN ARRIERE\n\n", -nbEtapes);
                     affichageGrille(grandJeu);
                 }
@@ -521,7 +527,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
 
         while (simuPasPas < 1 || simuPasPas > 3)
         {
-            system("cls");
+            system(CLEAR);
             printf("ATOMICCELLU - LG Corporation (c) - MENU\n\n");
             printf("\nEntrez un choix valide !\n");
             printf("\nQue souhaitez-vous faire ?\n");
@@ -534,7 +540,7 @@ int main(int argc, char *argv[]) // Gestion des paramètres -new et -load
         }
     }
 
-    system("cls");
+    system(CLEAR);
     printf("ATOMICCELLU - LG Corporation (c) - FERMETURE DU PROGRAMME\n\n");
     printf("Merci d'y avoir joue !");
 
