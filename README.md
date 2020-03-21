@@ -6,7 +6,7 @@ Création d'un automate cellulaire en C, comprenant les fonctionnalités décrit
 
 ## Compilation du programme
 
-Utilisation du compilateur [GCC](https://gcc.gnu.org/)
+Utilisation du compilateur [GCC](https://gcc.gnu.org/).
 
 ## Utilisation du programme sous Linux
 
