@@ -20,11 +20,11 @@ Lancez le programme avec les paramètres voulus (`-load` ou `-new`) :
 ### Paramètre `-new`
 Pour créer une nouvelle grille on utilise le paramètre `-new` :
 
-####  Linux 32 bits
+**Linux 32 bits**
 ```sh
 ./ATOMICCELLU_v1.0.2_IA-32 -new
 ```
-#### Linux 64 bits
+**Linux 64 bits**
 ```sh
 ./ATOMICCELLU_v1.0.2_x86-64 -new
 ```
@@ -32,11 +32,11 @@ Pour créer une nouvelle grille on utilise le paramètre `-new` :
 ### Paramètre `-load`
 Pour charger une grille sauvegardée au format `.txt` dans le répertoire `sauvegardes`, on utilise le paramètre `-load` :
 
-#### Linux 32 bits
+**Linux 32 bits**
 ```sh
 ./ATOMICCELLU_v1.0.2_IA-32 -load
 ```
-#### Linux 64 bits
+**Linux 64 bits**
 ```sh
 ./ATOMICCELLU_v1.0.2_x86-64 -load
 ```
@@ -54,11 +54,11 @@ Lancez le programme avec les paramètres voulus (`-load` ou `-new`) :
 ### Paramètre `-new`
 Pour créer une nouvelle grille on utilise le paramètre `-new` :
 
-####  Windows 32 bits
+**Windows 32 bits**
 ```bat
 ATOMICCELLU_v1.0.2_IA-32.exe -new
 ```
-#### Windows 64 bits
+**Windows 64 bits**
 ```bat
 ATOMICCELLU_v1.0.2_x86-64.exe -new
 ```
@@ -66,11 +66,11 @@ ATOMICCELLU_v1.0.2_x86-64.exe -new
 ### Paramètre `-load`
 Pour charger une grille sauvegardée au format `.txt` dans le répertoire `sauvegardes`, on utilise le paramètre `-load` :
 
-#### Windows 32 bits
+**Windows 32 bits**
 ```bat
 ATOMICCELLU_v1.0.2_IA-32.exe -load
 ```
-#### Windows 64 bits
+**Windows 64 bits**
 ```bat
 ATOMICCELLU_v1.0.2_x86-64.exe -load
 ```
